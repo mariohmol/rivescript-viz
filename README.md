@@ -17,11 +17,14 @@ This chart we look every topic and connect them using the reply, here a code exa
 < topic
 ```
 
-Here is a example of chart using as example `begin.rive` from `rivescript` repository.
+Here is a example of chart using as example `begin.rive` from `rivescript` repository. The size of nodes is based on connections numbers, so nodes that are important shows more and nodes that are at the end of the flow will be smaller.
 
 ![Network Example](/public/example.png)
 
+Connection between nodes now has a label that shows the trigger that connect them.
+
+![Connections Example](/public/nodes.png)
+
 ## TODO
 
-* Make nodes in topic network increase the size considering how many childrens it has
 * Create others Visualisations
