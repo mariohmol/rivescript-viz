@@ -1,0 +1,31 @@
+{
+  "name": "rivescript-viz",
+  "version": "0.0.1",
+  "description": "Visualisations using .rive files for rivescript chatbot projects",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://mariohmol@github.com/mariohmol/rivescript-viz.git"
+  },
+  "author": "Mario Mol",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mariohmol/rivescript-viz/issues"
+  },
+  "homepage": "https://github.com/mariohmol/rivescript-viz#readme",
+  "dependencies": {
+    "angular": "^1.5.7",
+    "angular-animate": "^1.5.7",
+    "angular-aria": "^1.5.7",
+    "angular-d3plus": "^1.0.1",
+    "angular-material": "^1.1.0-rc.5",
+    "angular-messages": "^1.5.7",
+    "angular-route": "^1.5.7",
+    "d3plus": "^1.9.5",
+    "express": "^4.14.0",
+    "rivescript": "^1.13.0"
+  }
+}
