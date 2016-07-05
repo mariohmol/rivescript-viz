@@ -3,7 +3,9 @@
 <head>
     <title>RiveScript Viz</title>
     <link rel="stylesheet" href="/node_modules/angular-material/angular-material.css" />
+    <!--
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    -->
     <link rel="stylesheet" href="/base.css" />
 </head>
 
@@ -14,22 +16,12 @@
         <div class="container">
             <div class="row" layout="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 outher">
-                  <h1>rivescript-viz</h1>
+                    <h1>rivescript-viz</h1>
                 </div>
             </div>
         </div>
 
-
-        <!-- Main content -->
-        <div class="container align-center" id="main_content">
-            <div class="content_container row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  home_content">
-
-
-                  <d3plus-network elementid="networktopics" size="size"  ></d3plus-network>
-                </div>
-            </div>
-        </div>
+        <d3plus-network elementid="networktopics" size="size" id="name" data="nodes" edges="connections"></d3plus-network>
         <!-- //Main content -->
 
     </section>

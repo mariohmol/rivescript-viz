@@ -1,4 +1,4 @@
-var rivescriptjs = angular.module('rivescriptjs', ['ngMaterial', 'ngMessages' ,'angular-d3plus']);
+var rivescriptjs = angular.module('rivescriptjs', ['ngMaterial', 'ngMessages', 'angular-d3plus']);
 rivescriptjs.config(function($mdThemingProvider) {
 
 
@@ -8,33 +8,48 @@ rivescriptjs.config(function($mdThemingProvider) {
         .dark();
 });
 
-rivescriptjs.controller('MainCtrl', function($scope, $http,$filter, $mdDialog, $mdMedia, $location) {
-
-  $http.get("/topics").then(function(response){
-
-    //var sample_data = [{"name": "alpha", "size": 10},]
+rivescriptjs.controller('MainCtrl', function($scope, $http, $filter, $mdDialog, $mdMedia, $location) {
+    $scope.show = false;
     $scope.nodes = [];
-
-    //var connections = [{"source": "alpha", "target": "beta"},]
     $scope.connections = [];
 
-    var regexTopic=/{topic=(.*?)}/ig;
-    for(var key in response.data){
-      var item = response.data[key];
-      if(key.indexOf("_")===0) continue;
+    $http.get("/topics").then(function(response) {
 
-      $scope.nodes.push({"name": key, "size": 1});
+        $scope.nodes = [];
+        $scope.connections = [];
 
-      for(var i in item){
-        var trigger = item[i];
-        while (match = regexTopic.exec(trigger.reply[0])) {
-          $scope.connections.push({"source": key, "target": match[1], "trigger": trigger.trigger});
-        }//endwhile
-      }//end items
-    } //endfor response
+        var regexTopic = /{topic=(.*?)}/ig;
+        for (var key in response.data) {
+            var item = response.data[key];
+            console.log(key);
+            if (key.indexOf("_") === 0) continue;
 
-    console.log($scope.connections,$scope.nodes);
-    $scope.$broadcast("DataReady",{elementid: "networktopics", nodes: $scope.nodes, edges: $scope.connections });  
+            $scope.nodes.push({
+                "name": key,
+                "size": 1
+            });
 
-  });
+            for (var i in item) {
+                var trigger = item[i];
+                while (match = regexTopic.exec(trigger.reply[0])) {
+                    $scope.connections.push({
+                        "source": key,
+                        "target": match[1],
+                        "trigger": trigger.trigger
+                    });
+                } //endwhile
+            } //end items
+        } //endfor response
+
+        console.log($scope.connections, $scope.nodes);
+        $scope.show = true;
+        //$scope.$apply();
+        $scope.$broadcast("DataReady", {
+            elementid: "networktopics",
+            edges: $scope.connections,
+            edgesarrows: true
+        });
+
+
+    });
 });

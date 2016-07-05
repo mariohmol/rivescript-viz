@@ -1,49 +1,17 @@
-h1, h2,h3,h4,h5,h6, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+h1, h2, h3, h4, h5, h6, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
     font-weight: inherit;
     opacity: 0.64;
     font-weight: 300;
     color: white;
 }
-body{
-      margin: 0;
+body {
+    margin: 0;
 }
-md-list-item.md-3-line, md-list-item.md-3-line> ._md-no-style {
-    min-height: 50px;
-}
-md-input-container {
-    text-align: left;
-}
-md-list-item ._md-secondary-container, md-list-item ._md-list-item-inner ._md-secondary-container{
-  height: auto;
+g {
+    opacity: 1;
 }
 .headsec {
     background-color: #3f51b5;
     text-align: center;
     height: 100%;
-}
-.headsec h2, .headsec h6 {
-    color: white;
-}
-.boxchat {
-    max-width: 800px;
-    display: inline-block;
-    width: 65%;
-}
-.optionschat {
-    max-width: 300px;
-    display: inline-block;
-    width: 35%;
-    vertical-align: top;
-}
-.boxchatmsg {
-    max-width: 800px;
-    max-height: 400px;
-    overflow-y: scroll;
-    display: inline-block;
-    width: 65%;
-}
-.message {
-    text-align: left;
-    padding-left: 3%;
-    white-space: pre-line;
 }
