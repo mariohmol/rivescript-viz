@@ -1,7 +1,11 @@
-h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+h1, h2,h3,h4,h5,h6, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
     font-weight: inherit;
     opacity: 0.64;
     font-weight: 300;
+    color: white;
+}
+body{
+      margin: 0;
 }
 md-list-item.md-3-line, md-list-item.md-3-line> ._md-no-style {
     min-height: 50px;

@@ -6,6 +6,7 @@ app.set('view engine', 'html');
 app.set('views', __dirname + '/templates');
 app.engine('html', require('ejs').renderFile);
 
+app.use('/node_modules',express.static(__dirname + '/node_modules'));
 app.use(express.static(__dirname + '/public'));
 
 app.use(bodyParser.urlencoded({
@@ -15,6 +16,11 @@ app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
    res.render('page.html');
+});
+
+app.get('/topics', function (req, res) {
+  console.log(bot._topics);
+  res.json(bot._topics);
 });
 
 var port =3000;

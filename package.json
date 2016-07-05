@@ -4,6 +4,7 @@
   "description": "Visualisations using .rive files for rivescript chatbot projects",
   "main": "server.js",
   "scripts": {
+    "start": "node .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,6 +26,7 @@
     "angular-messages": "^1.5.7",
     "angular-route": "^1.5.7",
     "d3plus": "^1.9.5",
+    "ejs": "^2.4.2",
     "express": "^4.14.0",
     "rivescript": "^1.13.0"
   }
