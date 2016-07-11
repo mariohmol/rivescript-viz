@@ -24,9 +24,12 @@
     "angular-material": "^1.1.0-rc.5",
     "angular-messages": "^1.5.7",
     "angular-route": "^1.5.7",
+    "angular-ui-grid": "^3.2.5",
     "d3plus": "^1.9.5",
     "ejs": "^2.4.2",
     "express": "^4.14.0",
-    "rivescript": "^1.13.0"
+    "rivescript": "^1.14.0",
+    "socketio": "^1.0.0",
+    "ui-grid": "0.0.0"
   }
 }

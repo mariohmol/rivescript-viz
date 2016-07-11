@@ -18,24 +18,66 @@ app.get('/', function (req, res) {
    res.render('page.html');
 });
 
+app.get('/chat', function (req, res) {
+   res.render('chat.html');
+});
+
+app.get('/interview', function (req, res) {
+   res.render('interview.html');
+});
+
+app.get('/graphs', function (req, res) {
+   res.render('graphs.html');
+});
+
+app.get('/rive', function (req, res) {
+   res.render('rive.html');
+});
+
 app.get('/topics', function (req, res) {
   console.log(bot._topics);
   res.json(bot._topics);
 });
 
-var port =3000;
-app.listen(port);
+var port = 3000;
+var io = require('socket.io').listen(app.listen(port));
 
 var RiveScript = require('rivescript');
-var bot = new RiveScript();
+var bot = new RiveScript({
+    utf8: true
+});
 
-var loading_done = function (batch_num) {
+var loading_done = function(batch_num) {
     console.log("Batch #" + batch_num + " has finished loading!");
     bot.sortReplies(); // Now the replies must be sorted!
 };
 var loading_error = function(batch_num, error) {
-    if(error) console.log("Error when loading files: " + error);
+    console.log("Error when loading files: ", error, batch_num);
 };
 
-// Load a directory full of RiveScript documents (.rive files).
 bot.loadDirectory("aiml/", loading_done, loading_error);
+
+var sendMessage = function(who, message) {
+    var reply = bot.reply(who, message);
+    var triggers;
+    try {
+        triggers = bot.getUserTopicTriggers(who);
+    } catch (e) {
+        console.log("getUserTopicTriggers");
+        triggers = [];
+    }
+    var uservars = bot.getUservars(who);
+    var resposta = {
+        message: reply,
+        triggers: triggers,
+        uservars: uservars
+    };
+    io.sockets.emit('message', resposta);
+};
+
+io.sockets.on('connection', function(socket) {
+    socket.on('send', function(data) {
+        console.log(data);
+        sendMessage(data.who, data.message);
+    });
+});
