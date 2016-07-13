@@ -1,11 +1,34 @@
 # rivescript-viz
 
-Visualisations using .rive files for rivescript chatbot projects.
+This is Admin UI for your rivescript chatbot project. We are using here `node`, `express`, `angular`, `d3` and other modules to create a full adminstrative page.
 
-To use this project, copy your `.rive` files into `/aiml/ ` folder and then run using `npm run start`.
+To install fork this project, run `npm install` and `npm .`.
+
+This project was made using separated server/client side, so you can include this in your project as it is. To use this project, copy your `.rive` files into `/aiml/ ` folder.
+
+![Network Example](/public/page.png)
+
+## Rive
+
+In this page you have a spreadsheet that loads all `.rive` files inside `aiml` folder. So you can change, add and remove rules. After all you can save changes back again in your rive files. In that way you can give to your team a place to easily manage the bot brain.
+
+![Network Example](/public/rive.png)
+
+## Interview Chat
+
+TODO
+
+## Interview Results
+
+TODO
+
+## Chat
+
+TODO
 
 
-## Topic Network
+
+## Graphs
 
 This chart we look every topic and connect them using the reply, here a code example where a topic `interview1` is connected to `interview2`:
 
@@ -19,7 +42,7 @@ This chart we look every topic and connect them using the reply, here a code exa
 
 Here is a example of chart using as example `begin.rive` from `rivescript` repository. The size of nodes is based on connections numbers, so nodes that are important shows more and nodes that are at the end of the flow will be smaller.
 
-![Network Example](/public/example.png)
+![Network Example](/public/graphs.png)
 
 Connection between nodes now has a label that shows the trigger that connect them.
 
@@ -27,4 +50,7 @@ Connection between nodes now has a label that shows the trigger that connect the
 
 ## TODO
 
-* Create others Visualisations
+* Interview chatbot
+* Normal Chat
+* Interview results
+* Save rive changes in file
