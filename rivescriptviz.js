@@ -26,12 +26,36 @@ module.exports = function(app){
     res.json(app.bot._topics);
   });
 
+
+  /**
+  Converts a element like that:
+  topic: '',value: 'Vamos começar novamente?\n<set met=false>What is your name?',delete: true,trigger: '*',goto: 'interview2' },
+
+  In a rive topic
+
+  trigger: 'What is your name?',
+       reply: [Object],
+       condition: [],
+       redirect: null,
+       previous: null
+  */
   app.post('/rivescriptviz/topics', function (req, res) {
-    console.log(res,req);
-    for(var topic in app.bot._topics){
-      console.log(topic);
+
+    var newtopics={}; // __begin__: app.bot._topics.__begin__
+    for(var topic in req.body){
+      var item = req.body[topic];
+      if(!newtopics[item.topic]) newtopics[item.topic]=[];
+      var obj = {trigger: "", reply: [], condition: [],redirect: null, previous: null};
+      obj.trigger = item.trigger;
+      obj.reply.push(item.value);
+      newtopics[item.topic].push(obj);
     }
-    res.json({return: "ok"});
+
+    app.bot._topics=newtopics;
+    var retorno = app.bot.write("test.rive");
+
+    console.log(newtopics);
+    res.json({return: "ok", newtopics: newtopics});
   });
 
   app.get('/rivescriptviz/topics/spreadsheet', function (req, res) {
@@ -59,19 +83,13 @@ module.exports = function(app){
         }
     }
 
-    res.json({data: returndata, topics: returntopics});
+    res.json({data: returndata, topics: returntopics, rivedata: rivedata});
   });
 
   app.get('/rivescriptviz/deparsed', function (req, res) {
     console.log(app.bot.deparse());
     res.json(app.bot.deparse());
   });
-
-  app.get('/rivescriptviz/write', function (req, res) {
-    var retorno = app.bot.write("test.rive");
-    res.json({"return":retorno});
-  });
-
 
 
 

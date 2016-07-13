@@ -50,7 +50,8 @@ app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $locat
     });
 
     $scope.write = function() {
-        $http.post("/rivescriptviz/write",$scope.gridOptions.data).then(function(response) {
+      console.log("oioio");
+        $http.post("/rivescriptviz/topics",$scope.gridOptions.data).then(function(response) {
             console.log(response);
         });
     };

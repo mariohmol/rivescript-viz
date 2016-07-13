@@ -1,7 +1,56 @@
 <% include ../head %>
 
     <section class="headsec" ng-controller="InterviewChatCtrl">
-        <d3plus-network elementid="networktopics" size="size" id="name" data="nodes" edges="connections"></d3plus-network>
+        <md-content flex layout-padding class="boxchatmsg" id="messageslist">
+            <md-list>
+                <md-list-item class="md-3-line" ng-repeat="item in messages">
+
+                    <md-icon md-font-set="material-icons" ng-if="item.who!='bot'"> face </md-icon>
+                    <md-icon md-font-set="material-icons" ng-if="item.who=='bot'"> android </md-icon>
+                    <div class="md-list-item-text message">
+                        <p>{{item.message}}</p>
+                    </div>
+                    <md-divider md-inset ng-if="!$last"></md-divider>
+                </md-list-item>
+            </md-list>
+
+            <md-input-container ng-if="triggers==null || triggers.length==1">
+                <label>Mensagem</label>
+                <input ng-model="mensagem">
+                <br>
+                <md-button class="md-raised" ng-click="enviar(null)">Enviar</md-button>
+            </md-input-container>
+
+            <md-input-container ng-if="triggers.length>1 && triggers.length<5" layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                <div ng-repeat="itemTrigger in triggers">
+                    <md-button ng-click="enviar(itemTrigger[0])" class="md-raised md-primary">{{itemTrigger[0]|capitalize}}</md-button>
+                </div>
+            </md-input-container>
+
+            <md-input-container ng-if="triggers.length>4">
+                <md-select ng-model="mensagem">
+                    <md-option ng-repeat="itemTrigger in triggers" value="{{itemTrigger[0]}}">
+                        {{itemTrigger[0]|capitalize}}
+                    </md-option>
+                </md-select>
+                <br>
+                <md-button class="md-raised" ng-click="enviar(null)">Enviar</md-button>
+            </md-input-container>
+
+
+
+        </md-content>
+
+        <md-content flex layout-padding class="optionschat">
+            <md-list ng-if="opcoes && opcoes.length>0">
+                <md-list-item class="md-3-line" ng-repeat="item in opcoes">
+                    <div class="md-list-item-text message">
+                        <p>{{item.message}}</p>
+                    </div>
+                    <md-divider md-inset ng-if="!$last"></md-divider>
+                </md-list-item>
+            </md-list>
+        </md-content>
     </section>
 
-<% include ../foot %>
+    <% include ../foot %>
