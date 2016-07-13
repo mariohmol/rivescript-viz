@@ -1,14 +1,5 @@
-var rivescriptjs = angular.module('rivescriptjs', ['ngMaterial', 'ngMessages', 'angular-d3plus']);
-rivescriptjs.config(function($mdThemingProvider) {
 
-
-    // Configure a dark theme with primary foreground yellow
-    $mdThemingProvider.theme('docs-dark', 'default')
-        .primaryPalette('yellow')
-        .dark();
-});
-
-rivescriptjs.controller('MainCtrl', function($scope, $http, $filter, $mdDialog, $mdMedia, $location) {
+app.controller('GraphsCtrl', function($scope, $http, $filter, $mdDialog, $mdMedia, $location) {
     $scope.show = false;
     $scope.nodes = [];
     $scope.connections = [];
