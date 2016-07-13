@@ -31,6 +31,7 @@
     "express": "^4.14.0",
     "rivescript": "^1.14.0",
     "socketio": "^1.0.0",
+    "textangular": "^1.5.1",
     "ui-grid": "0.0.0"
   }
 }
