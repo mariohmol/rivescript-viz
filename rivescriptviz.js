@@ -46,7 +46,7 @@ module.exports = function(app) {
     */
     app.post('/rivescriptviz/topics', function(req, res) {
 
-        var newtopics = {}; // __begin__: app.bot._topics.__begin__
+        var newtopics = {};
         for (var topic in req.body) {
             var item = req.body[topic];
             if (!newtopics[item.topic]) newtopics[item.topic] = [];
@@ -58,14 +58,15 @@ module.exports = function(app) {
                 previous: null
             };
             obj.trigger = item.trigger;
-            obj.reply.push(item.value);
+            var value = item.value;
+            if(item.goto) item.value+='{topic='+item.goto+'}';
+            obj.reply.push(value);
             newtopics[item.topic].push(obj);
         }
 
         app.bot._topics = newtopics;
         var retorno = app.bot.write("test.rive");
 
-        console.log(newtopics);
         res.json({
             return: "ok",
             newtopics: newtopics
@@ -85,7 +86,7 @@ module.exports = function(app) {
             for (var item in topic) {
                 var newobj = {};
                 newobj.topic = itemtopic;
-                newobj.value = topic[item].reply[0];
+
                 newobj.delete = true;
                 newobj.trigger = topic[item].trigger;
                 var regexTopic = /{topic=(.*?)}/ig;
@@ -93,7 +94,17 @@ module.exports = function(app) {
                     newobj.goto = match[1];
                     newobj.value = newobj.value.replace(match[0], "");
                 }
-                returndata.push(newobj);
+                newobj.condition="";
+                for(var c in topic[item].condition){
+                  if(newobj.condition) newobj.condition="/n";
+                  newobj.condition+=topic[item].condition[c];
+                }
+
+                for(var r in topic[item].reply){
+                  var tempNewObj = JSON.parse(JSON.stringify(newobj));
+                  tempNewObj.value = topic[item].reply[r];
+                  returndata.push(tempNewObj);
+                }
             }
         }
 

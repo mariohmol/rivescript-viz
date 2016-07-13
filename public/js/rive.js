@@ -4,23 +4,29 @@ app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $locat
 
     $scope.gridOptions = {
         appScopeProvider: this,
-        data: [{"topic": "", "trigger": "","value": "", "goto": "", "delete": true}]
+        data: []
     };
 
     $scope.gridOptions.columnDefs = [{
         name: 'topic',
         displayName: 'Topic',
-        width: '15%',
+        width: '13%',
         enableCellEdit: true,
         editFileChooserCallback: $scope.storeFile
     }, {
         name: 'trigger',
         displayName: 'Trigger',
-        width: '20%',
+        width: '13%',
         enableCellEdit: true
     }, {
+        name: 'condition',
+        displayName: 'Condition',
+        width: '12%',
+        enableCellEdit: true,
+        editableCellTemplate: '<textarea ng-class="\'colt\' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" ngEnter></textarea>'
+    }, {
         name: 'value',
-        displayName: 'Value',
+        displayName: 'Reply',
         width: '45%',
         enableCellEdit: true,
         editableCellTemplate: '<textarea ng-class="\'colt\' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" ngEnter></textarea>'
@@ -38,7 +44,7 @@ app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $locat
         }
     }, {
         name: 'Remove',
-        width: '10%',
+        width: '7%',
         cellTemplate: '<md-button class="md-raised md-warn" ng-click="grid.appScope.deleteRow(row)">remove</md-button>'
     }];
 
@@ -46,11 +52,12 @@ app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $locat
     $http.get("/rivescriptviz/topics/spreadsheet").then(function(response) {
         $scope.gridOptions.data = response.data.data;
         $scope.topics = response.data.topics;
+        console.log(response.data.rivedata);
     });
 
     $scope.write = function() {
         $http.post("/rivescriptviz/topics",$scope.gridOptions.data).then(function(response) {
-            console.log(response);
+          alert("Data saved sucessfully");
         });
     };
 
@@ -80,6 +87,7 @@ app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $locat
         var index = $scope.gridOptions.data.push({
             "topic": "",
             "trigger": "",
+            "condition": "",
             "value": "",
             "goto": "",
             delete: true

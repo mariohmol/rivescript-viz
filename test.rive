@@ -1,0 +1,185 @@
+! version = 2.0
+! local concat = none
+
+! global interview_retry = 3
+
+! var name = MultasBot
+
++ reinterview me|interview me again
+- Okay I'll interview you again. <set met=false>What's your name?
+
+> topic tipoinfracao
+
+	+ usar o celular enquanto dirige
+	- LALAL<set tipoinfracao=<star>><set end=true>
+
+	+ excesso de velocidade
+	- LALAL<set tipoinfracao=<star>><set end=true>
+
+	+ estacionar em lugar proibido
+	- LALAL<set tipoinfracao=<star>><set end=true>
+
+	+ trafegar pela faixa exclusiva de ônibus
+	- LALAL<set tipoinfracao=<star>><set end=true>
+
+	+ furar o sinal vermelho
+	- LALAL<set tipoinfracao=<star>><set end=true>
+
+	+ não dar preferência ao pedestre
+	- LALAL<set tipoinfracao=<star>><set end=true>
+
+	+ não usar cinto de segurança
+	- LALAL<set tipoinfracao=<star>><set end=true>
+
+	+ ultrapassar pela contramão em linha dupla ou simples contínua
+	- LALAL<set tipoinfracao=<star>><set end=true>
+
+	+ trafegar pelo acostamento
+	- LALAL<set tipoinfracao=<star>><set end=true>
+
+	+ licenciamento vencido
+	- LALAL<set tipoinfracao=<star>><set end=true>
+
+< topic
+
+> topic interview1
+
+	+ *
+	- Hi there! My name is <bot name>. What's your name? <set retry=0>
+
+< topic
+
+> topic interview2 includes interview_common
+
+	+ * *
+	- I only want your first name. {@int help}
+
+	+ (@firstnames)
+	- <set name=<formal>>Your name is <get name>? Cool! Are you a boy or a girl? <set retry=0>
+
+	+ *
+	- <set tmp=<formal>><add retry=1>Is that a real name? ({@int help})
+
+	+ [*] @yes [*]
+	- <set name=<get tmp>>Okay, then - I'll call you <get name>. Well, are you a boy or a girl? <set retry=0>
+
+	+ (my name is|call me|i am|im) *
+
+	+ int giveup
+	- <set name=<id>>I'll just call you <get name>. Anyway, what's up? 
+
+	+ int help
+	- <add retry=1>{@int help name}
+
+< topic
+
+> topic interview3 includes interview_common
+
+	+ @malenoun
+	- Cool! I'm a <bot gender>. How old are you?{@int male}
+
+	+ @femalenoun
+	- Cool! I'm a <bot gender>. How old are you?{@int female}
+
+	+ [i am|im] a (@malenoun|@femalenoun)
+
+	+ *
+	- I asked if you're a boy or a girl? {@int help}
+
+	+ int help
+	- <add retry=1>{@int help gender}
+
+	+ int male
+	- <set gender=male><set retry=0>
+
+	+ int female
+	- <set gender=female><set retry=0>
+
+< topic
+
+> topic interview4 includes interview_common
+
+	+ #
+	- <set age=<star>>I'll remember that you're <get age> years old. I'm <bot age>, myself. That's all the questions I have for now -- let's chat. What's up?
+
+	+ (i am|im) # [years old]
+
+	+ *
+	- Tell me your age as a number. {@int help}
+
+	+ int help
+	- <add retry=1>{@int help age}
+
+< topic
+
+> topic interview_common
+
+	+ [*] (continue|cancel|stop|quit) [*]
+	- Okay, let's just chat then. What's up?
+
+	+ int abort
+	- Nevermind then. What's up?
+
+	+ int help *
+	- If you don't want to tell me your <star>, just type "continue".
+
+	+ [*] (continue|cancel|stop|quit) [*]
+	- Tudo bem, vamos apenas conversar. Está tudo bem?
+
+	+ int abort
+	- Deixa pra lá. Está precisando de algo?
+
+	+ int help *
+	- Se você não quise me contar seu <star>, basta digitar "continue".
+
+< topic
+
+> topic inicio
+
+	+ *
+	- Olá, tudo bem? Meu nome é <bot name> e posso ajudar você a recorrer de uma multa que você considera que foi indevida.\nPara isso preciso lhe fazer algumas perguntas e conto com sua ajuda.\nVamos começar? Primeira pergunta é se sua carteira de motorista é provisória ou permanente.\n<set retry=0>
+
+< topic
+
+> topic carteiramotorista
+
+	+ sim
+	- De acordo com a lei brasileira, o condutor tendo a carteira provisória, ganhará após um ano a carteira definitiva,\ncaso você não foi autuado por uma infração grave ou gravíssima, de acordo com o o § 3 do Art. 148,\n"A Carteira Nacional de Habilitação será conferida ao condutor no término de um ano, desde que o mesmo não tenha cometido\nnenhuma infração de natureza grave ou gravíssima ou seja reincidente em infração média."\nA autuação está em mãos, chegou em sua residência ou estava fixado em seu veículo?\n<set carteira=sim>
+
+	+ não
+	- Você tem certeza que a multa foi realiza? A autuação está em mãos, chegou em sua residência ou estava fixado em seu veículo?\n<set carteira=nao>
+
+< topic
+
+> topic multaemmaos
+
+	+ sim
+	- A Infração foi considerada Leve, Média, Grave ou Gravíssima?\n<set multaemmaos=sim>
+
+	+ não
+	- Neste caso, sugiro esperar para que chegue a autuação para ajudá-lo, pois existe a possibilidade de não ter processado a sua multa.\nVocê poderá acessar o site do detran do seu Estado, para verificar se existe alguma multa cadastrada até o momento do seu veículo ou CNH.\n
+
+< topic
+
+> topic gravidadeinfracao
+
+	+ (leve|média)
+	- Qual Tipo de Multa? Encaminharei alguns exemplos e você responda em qual se encaixa mais com a sua situação\n<set gravidadeinfracao=<star>>
+
+	+ (grave|gravíssima)
+
+< topic
+
+> topic precisaadvogado
+
+	+ *
+	- Neste caso vc precisa contactar um advogado
+
+< topic
+
+> topic
+
+	+ *
+	- Vamos começar novamente?\n<set met=false>Qual é o seu nome?
+
+< topic
