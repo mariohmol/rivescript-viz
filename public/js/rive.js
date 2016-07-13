@@ -1,7 +1,9 @@
-app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $location,$http) {
-    $scope.topics = [{"interview2": "interview2"}];
-    $scope.gridOptions = {};
-    $scope.rivedata={};
+app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $location, $http) {
+    $scope.topics = [{
+        "interview2": "interview2"
+    }];
+    $scope.gridOptions = {appScopeProvider: this};
+    $scope.rivedata = {};
 
     $scope.gridOptions.data = [{
         "topic": "topic2",
@@ -11,38 +13,39 @@ app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $locat
     }];
 
     $http.get("/deparsed").then(function(response) {
-      $scope.gridOptions.data=[];
-      $scope.rivedata=response.data;
-      console.log($scope.rivedata);
-      var topics = $scope.rivedata.topics;
-      for(var itemtopic in topics){
-        var topic = topics[itemtopic];
-        for(var item in topic){
-          var newobj = {};
-          newobj.topic=itemtopic;
-          newobj.value=topic[item].reply[0];
+        $scope.gridOptions.data = [];
+        $scope.rivedata = response.data;
+        console.log($scope.rivedata);
+        var topics = $scope.rivedata.topics;
+        for (var itemtopic in topics) {
+            var topic = topics[itemtopic];
+            for (var item in topic) {
+                var newobj = {};
+                newobj.topic = itemtopic;
+                newobj.value = topic[item].reply[0];
+                newobj.delete = true;
 
-          newobj.trigger=topic[item].trigger;
+                newobj.trigger = topic[item].trigger;
 
-          var regexTopic = /{topic=(.*?)}/ig;
-          while (match = regexTopic.exec(newobj.value)) {
-              newobj.goto=match[1];
-              newobj.value=newobj.value.replace(match[0],"");
-              console.log(match);
-          }
-          $scope.gridOptions.data.push(newobj);
-          console.log(topic[item]);
+                var regexTopic = /{topic=(.*?)}/ig;
+                while (match = regexTopic.exec(newobj.value)) {
+                    newobj.goto = match[1];
+                    newobj.value = newobj.value.replace(match[0], "");
+                    console.log(match);
+                }
+                $scope.gridOptions.data.push(newobj);
+                console.log(topic[item]);
+            }
+
         }
-
-      }
-      //$scope.gridOptions.data =
+        //$scope.gridOptions.data =
     });
 
-    $scope.write = function(){
-      $http.get("/write").then(function(response) {
-        console.log(response);
-        //$scope.gridOptions.data =
-      });
+    $scope.write = function() {
+        $http.get("/write").then(function(response) {
+            console.log(response);
+            //$scope.gridOptions.data =
+        });
     };
 
     $scope.storeFile = function(gridRow, gridCol, files) {
@@ -62,6 +65,20 @@ app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $locat
         reader.readAsText(files[0]);
     };
 
+    $scope.deleteRow = function(row) {
+        var index = $scope.gridOptions.data.indexOf(row.entity);
+        $scope.gridOptions.data.splice(index, 1);
+    };
+
+    $scope.addRow = function(row) {
+        var index = $scope.gridOptions.data.push({
+            "topic": "",
+            "trigger": "",
+            "value": "",
+            "goto": "", delete: true
+        });
+    };
+
 
     $scope.gridOptions.columnDefs = [{
         name: 'topic',
@@ -77,13 +94,13 @@ app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $locat
     }, {
         name: 'value',
         displayName: 'Value',
-        width: '50%',
+        width: '45%',
         enableCellEdit: true,
         editableCellTemplate: '<textarea ng-class="\'colt\' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" ngEnter></textarea>'
     }, {
         name: 'goto',
         displayName: 'Trigger Destination',
-        width: '15%',
+        width: '10%',
         editableCellTemplate: 'ui-grid/dropdownEditor',
         editDropdownOptionsFunction: function(rowEntity, colDef) {
             if (rowEntity.topic) {
@@ -92,6 +109,10 @@ app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $locat
                 return $scope.topics;
             }
         }
+    }, {
+        name: 'Delete',
+        width: '10%',
+        cellTemplate: '<md-button class="md-raised md-warn" ng-click="grid.appScope.deleteRow(row)">remove</md-button>'
     }];
 
 

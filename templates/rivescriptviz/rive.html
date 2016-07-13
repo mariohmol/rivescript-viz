@@ -1,0 +1,11 @@
+<% include ../head %>
+
+    <md-subheader class="md-primary">
+        <md-button md-no-ink class=" md-raised md-primary" ng-click="grid.appScope.clickHandler()">Add</md-button>
+        <md-button md-no-ink class=" md-raised md-primary" ng-click="save()">Save</md-button>
+    </md-subheader>
+    <div ng-controller="RiveCtrl">
+        <div id="rivegrid" ui-grid="gridOptions" ui-grid-edit class="grid"></div>
+    </div>
+
+    <% include ../foot %>
