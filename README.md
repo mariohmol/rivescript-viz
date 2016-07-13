@@ -6,13 +6,13 @@ To install fork this project, run `npm install` and `npm .`.
 
 This project was made using separated server/client side, so you can include this in your project as it is. To use this project, copy your `.rive` files into `/aiml/ ` folder.
 
-![Network Example](/public/page.png)
+![Admin GUI](/public/page.png)
 
 ## Rive
 
 In this page you have a spreadsheet that loads all `.rive` files inside `aiml` folder. So you can change, add and remove rules. After all you can save changes back again in your rive files. In that way you can give to your team a place to easily manage the bot brain.
 
-![Network Example](/public/rive.png)
+![Rive editor](/public/rive.png)
 
 ## Interview Chat
 
@@ -20,7 +20,10 @@ TODO
 
 ## Interview Results
 
-TODO
+In interview chat mode the bot will ask you questions and then when you reach the final of a flow, it will give you a page showing some text and results.
+The interview results page you have a HTML editor where you can create those files and contents.
+
+![Interview results](/public/interviewresults.png)
 
 ## Chat
 
@@ -52,5 +55,5 @@ Connection between nodes now has a label that shows the trigger that connect the
 
 * Interview chatbot
 * Normal Chat
-* Interview results
+* Interview results: create a example in rive scripts, using user bot vars and document in readme
 * Save rive changes in file
