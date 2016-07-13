@@ -13,6 +13,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
+app.use(bodyParser.text({ type: 'text/html' }));
 
 app.get('/', function (req, res) {
    res.render('page.html');

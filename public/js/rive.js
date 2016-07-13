@@ -44,13 +44,11 @@ app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $locat
 
 
     $http.get("/rivescriptviz/topics/spreadsheet").then(function(response) {
-      console.log(response);
         $scope.gridOptions.data = response.data.data;
         $scope.topics = response.data.topics;
     });
 
     $scope.write = function() {
-      console.log("oioio");
         $http.post("/rivescriptviz/topics",$scope.gridOptions.data).then(function(response) {
             console.log(response);
         });

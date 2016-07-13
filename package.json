@@ -24,6 +24,7 @@
     "angular-material": "^1.1.0-rc.5",
     "angular-messages": "^1.5.7",
     "angular-route": "^1.5.7",
+    "angular-sanitize": "^1.5.7",
     "angular-touch": "^1.5.7",
     "angular-ui-grid": "^3.2.5",
     "d3plus": "^1.9.5",

@@ -1,14 +1,24 @@
 <% include ../head %>
 
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,300">
 
-    <div ng-controller="RiveCtrl">
+
+    <div ng-controller="InterviewResultsCtrl">
 
         <md-subheader class="md-primary">
-            <md-button md-no-ink class=" md-raised md-primary" ng-click="grid.appScope.clickHandler()">Add</md-button>
-            <md-button md-no-ink class=" md-raised md-primary" ng-click="write()">Save</md-button>
+            <md-button md-no-ink class=" md-raised md-primary" ng-click="add()" aria-label="add">Add</md-button>
+            <md-button md-no-ink class=" md-raised md-primary" ng-click="write()" aria-label="save">Save</md-button>
+
+            <md-select ng-model="filename" aria-label="files" ng-change="getFile()">
+                <md-option ng-repeat="file in files" value="{{file}}">
+                    {{file}}
+                </md-option>
+            </md-select>
         </md-subheader>
 
-        <div text-angular ng-model="htmlVariable"></div>
+        <div text-angular ng-model="fileContent"></div>
     </div>
 
     <% include ../foot %>

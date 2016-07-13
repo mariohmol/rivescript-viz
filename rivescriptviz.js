@@ -14,6 +14,10 @@ module.exports = function(app) {
         res.render('rivescriptviz/interview.html');
     });
 
+    app.get('/rivescriptviz/interviewedit', function(req, res) {
+        res.render('rivescriptviz/interviewresults.html');
+    });
+
     app.get('/rivescriptviz/graphs', function(req, res) {
         res.render('rivescriptviz/graphs.html');
     });
@@ -107,17 +111,31 @@ module.exports = function(app) {
 
     app.get('/rivescriptviz/interviewresults', function(req, res) {
         var files = fs.readdirSync('./templates/results/');
-        res.json({data: files});
+        res.json({
+            files: files
+        });
     });
 
     app.get('/rivescriptviz/interviewresults/:name', function(req, res) {
-        console.log(app.bot.deparse());
-        res.json(app.bot.deparse());
+        fs.readFile('./templates/results/' + req.params.name, 'utf8', function(err, data) {
+            if (err) {
+                res.json({
+                    err: err
+                });
+            }
+            res.json({
+                data: data
+            });
+        });
     });
 
-    app.post('/rivescriptviz/interviewresults', function(req, res) {
-        console.log(app.bot.deparse());
-        res.json(app.bot.deparse());
+    app.post('/rivescriptviz/interviewresults/:name', function(req, res) {
+        fs.writeFile('./templates/results/' + req.params.name, req.body.data, function(err) {
+            if (err) {
+              res.json({ err: err});
+            }
+            res.json({result: "OK"});
+        });
     });
 
     var port = 3000;
