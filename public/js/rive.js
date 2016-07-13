@@ -1,6 +1,49 @@
-app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $location) {
-    $scope.topics = ["interview2"];
+app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $location,$http) {
+    $scope.topics = [{"interview2": "interview2"}];
+    $scope.gridOptions = {};
+    $scope.rivedata={};
 
+    $scope.gridOptions.data = [{
+        "topic": "topic2",
+        "trigger": "trigger",
+        "value": "trigger \n aiaijaijaija \n sisijsij",
+        "goto": "trigger"
+    }];
+
+    $http.get("/deparsed").then(function(response) {
+      $scope.gridOptions.data=[];
+      $scope.rivedata=response.data;
+      console.log($scope.rivedata);
+      var topics = $scope.rivedata.topics;
+      for(var itemtopic in topics){
+        var topic = topics[itemtopic];
+        for(var item in topic){
+          var newobj = {};
+          newobj.topic=itemtopic;
+          newobj.value=topic[item].reply[0];
+
+          newobj.trigger=topic[item].trigger;
+
+          var regexTopic = /{topic=(.*?)}/ig;
+          while (match = regexTopic.exec(newobj.value)) {
+              newobj.goto=match[1];
+              newobj.value=newobj.value.replace(match[0],"");
+              console.log(match);
+          }
+          $scope.gridOptions.data.push(newobj);
+          console.log(topic[item]);
+        }
+
+      }
+      //$scope.gridOptions.data =
+    });
+
+    $scope.write = function(){
+      $http.get("/write").then(function(response) {
+        console.log(response);
+        //$scope.gridOptions.data =
+      });
+    };
 
     $scope.storeFile = function(gridRow, gridCol, files) {
         // ignore all but the first file, it can only select one anyway
@@ -19,7 +62,7 @@ app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $locat
         reader.readAsText(files[0]);
     };
 
-    $scope.gridOptions = {};
+
     $scope.gridOptions.columnDefs = [{
         name: 'topic',
         displayName: 'Topic',
@@ -27,20 +70,16 @@ app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $locat
         enableCellEdit: true,
         editFileChooserCallback: $scope.storeFile
     }, {
-        name: 'topicext',
-        displayName: 'Topic Ext',
-        width: '10%',
-        enableCellEdit: true
-    }, {
         name: 'trigger',
         displayName: 'Trigger',
-        width: '10%',
+        width: '20%',
         enableCellEdit: true
     }, {
         name: 'value',
         displayName: 'Value',
         width: '50%',
-        enableCellEdit: true
+        enableCellEdit: true,
+        editableCellTemplate: '<textarea ng-class="\'colt\' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" ngEnter></textarea>'
     }, {
         name: 'goto',
         displayName: 'Trigger Destination',
@@ -55,12 +94,6 @@ app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $locat
         }
     }];
 
-    $scope.gridOptions.data = [{
-        "topic": "topic2",
-        "topicext": "includes interview_common",
-        "trigger": "trigger",
-        "value": "trigger",
-        "goto": "trigger"
-    }];
+
 
 });

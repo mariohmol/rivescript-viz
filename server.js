@@ -38,6 +38,38 @@ app.get('/topics', function (req, res) {
   console.log(bot._topics);
   res.json(bot._topics);
 });
+/*
+app.put('/topics', function (req, res) {
+
+  for(topic in bot._topics){
+
+  }
+  res.json({return: "ok"});
+});
+
+app.post('/topics', function (req, res) {
+  for(topic in bot._topics){
+
+  }
+  res.json({return: "ok"});
+});
+
+app.delete('/topics', function (req, res) {
+  for(topic in bot._topics){
+
+  }
+  res.json({return: "ok"});
+});
+*/
+app.get('/deparsed', function (req, res) {
+  console.log(bot.deparse());
+  res.json(bot.deparse());
+});
+
+app.get('/write', function (req, res) {
+  var retorno = bot.write("test.rive");
+  res.json({"return":retorno});
+});
 
 var port = 3000;
 var io = require('socket.io').listen(app.listen(port));
