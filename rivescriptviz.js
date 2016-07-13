@@ -27,10 +27,39 @@ module.exports = function(app){
   });
 
   app.post('/rivescriptviz/topics', function (req, res) {
+    console.log(res,req);
     for(var topic in app.bot._topics){
       console.log(topic);
     }
     res.json({return: "ok"});
+  });
+
+  app.get('/rivescriptviz/topics/spreadsheet', function (req, res) {
+
+    var rivedata = app.bot.deparse();
+    var topics = rivedata.topics;
+    var returndata= [];
+    var returntopics= {};
+
+    for (var itemtopic in topics) {
+        var topic = topics[itemtopic];
+        returntopics[itemtopic]=itemtopic;
+        for (var item in topic) {
+            var newobj = {};
+            newobj.topic = itemtopic;
+            newobj.value = topic[item].reply[0];
+            newobj.delete = true;
+            newobj.trigger = topic[item].trigger;
+            var regexTopic = /{topic=(.*?)}/ig;
+            while (match = regexTopic.exec(newobj.value)) {
+                newobj.goto = match[1];
+                newobj.value = newobj.value.replace(match[0], "");
+            }
+            returndata.push(newobj);
+        }
+    }
+
+    res.json({data: returndata, topics: returntopics});
   });
 
   app.get('/rivescriptviz/deparsed', function (req, res) {

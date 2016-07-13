@@ -4,7 +4,7 @@ app.controller('GraphsCtrl', function($scope, $http, $filter, $mdDialog, $mdMedi
     $scope.nodes = [];
     $scope.connections = [];
 
-    $http.get("/topics").then(function(response) {
+    $http.get("/rivescriptviz/topics").then(function(response) {
 
         $scope.nodes = [];
         $scope.connections = [];

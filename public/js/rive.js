@@ -1,50 +1,57 @@
 app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $location, $http) {
-    $scope.topics = [{
-        "interview2": "interview2"
-    }];
-    $scope.gridOptions = {appScopeProvider: this};
+    $scope.topics = [];
     $scope.rivedata = {};
 
-    $scope.gridOptions.data = [{
-        "topic": "topic2",
-        "trigger": "trigger",
-        "value": "trigger \n aiaijaijaija \n sisijsij",
-        "goto": "trigger"
+    $scope.gridOptions = {
+        appScopeProvider: this,
+        data: [{"topic": "", "trigger": "","value": "", "goto": "", "delete": true}]
+    };
+
+    $scope.gridOptions.columnDefs = [{
+        name: 'topic',
+        displayName: 'Topic',
+        width: '15%',
+        enableCellEdit: true,
+        editFileChooserCallback: $scope.storeFile
+    }, {
+        name: 'trigger',
+        displayName: 'Trigger',
+        width: '20%',
+        enableCellEdit: true
+    }, {
+        name: 'value',
+        displayName: 'Value',
+        width: '45%',
+        enableCellEdit: true,
+        editableCellTemplate: '<textarea ng-class="\'colt\' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" ngEnter></textarea>'
+    }, {
+        name: 'goto',
+        displayName: 'Topic Destination',
+        width: '10%',
+        editableCellTemplate: 'ui-grid/dropdownEditor',
+        editDropdownOptionsFunction: function(rowEntity, colDef) {
+            if (rowEntity.topic) {
+                return $scope.topics;
+            } else {
+                return $scope.topics;
+            }
+        }
+    }, {
+        name: 'Remove',
+        width: '10%',
+        cellTemplate: '<md-button class="md-raised md-warn" ng-click="grid.appScope.deleteRow(row)">remove</md-button>'
     }];
 
-    $http.get("/deparsed").then(function(response) {
-        $scope.gridOptions.data = [];
-        $scope.rivedata = response.data;
-        console.log($scope.rivedata);
-        var topics = $scope.rivedata.topics;
-        for (var itemtopic in topics) {
-            var topic = topics[itemtopic];
-            for (var item in topic) {
-                var newobj = {};
-                newobj.topic = itemtopic;
-                newobj.value = topic[item].reply[0];
-                newobj.delete = true;
 
-                newobj.trigger = topic[item].trigger;
-
-                var regexTopic = /{topic=(.*?)}/ig;
-                while (match = regexTopic.exec(newobj.value)) {
-                    newobj.goto = match[1];
-                    newobj.value = newobj.value.replace(match[0], "");
-                    console.log(match);
-                }
-                $scope.gridOptions.data.push(newobj);
-                console.log(topic[item]);
-            }
-
-        }
-        //$scope.gridOptions.data =
+    $http.get("/rivescriptviz/topics/spreadsheet").then(function(response) {
+      console.log(response);
+        $scope.gridOptions.data = response.data.data;
+        $scope.topics = response.data.topics;
     });
 
     $scope.write = function() {
-        $http.get("/write").then(function(response) {
+        $http.post("/rivescriptviz/write",$scope.gridOptions.data).then(function(response) {
             console.log(response);
-            //$scope.gridOptions.data =
         });
     };
 
@@ -75,46 +82,10 @@ app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $locat
             "topic": "",
             "trigger": "",
             "value": "",
-            "goto": "", delete: true
+            "goto": "",
+            delete: true
         });
     };
-
-
-    $scope.gridOptions.columnDefs = [{
-        name: 'topic',
-        displayName: 'Topic',
-        width: '15%',
-        enableCellEdit: true,
-        editFileChooserCallback: $scope.storeFile
-    }, {
-        name: 'trigger',
-        displayName: 'Trigger',
-        width: '20%',
-        enableCellEdit: true
-    }, {
-        name: 'value',
-        displayName: 'Value',
-        width: '45%',
-        enableCellEdit: true,
-        editableCellTemplate: '<textarea ng-class="\'colt\' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" ngEnter></textarea>'
-    }, {
-        name: 'goto',
-        displayName: 'Trigger Destination',
-        width: '10%',
-        editableCellTemplate: 'ui-grid/dropdownEditor',
-        editDropdownOptionsFunction: function(rowEntity, colDef) {
-            if (rowEntity.topic) {
-                return $scope.topics;
-            } else {
-                return $scope.topics;
-            }
-        }
-    }, {
-        name: 'Delete',
-        width: '10%',
-        cellTemplate: '<md-button class="md-raised md-warn" ng-click="grid.appScope.deleteRow(row)">remove</md-button>'
-    }];
-
 
 
 });
