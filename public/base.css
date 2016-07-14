@@ -16,7 +16,10 @@ g {
     height: 100%;
 }
 .secinterview {
-    height: 200px;
+    max-height: 200px;
+}
+md-list-item{
+      max-height: 100px;
 }
 
 /* CUSTOM FOR SPREADSHEET GRID */

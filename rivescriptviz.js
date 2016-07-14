@@ -185,6 +185,10 @@ module.exports = function(app) {
         });
     });
 
+    app.get('/rivescriptviz/interviewresultshtml/:name', function(req, res) {
+        res.render("results/"+req.params.name);
+    });
+
     var port = 3000;
     var io = require('socket.io').listen(app.listen(port));
 

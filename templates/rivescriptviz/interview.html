@@ -1,70 +1,73 @@
 <% include ../head %>
-<section class="secinterview" ng-controller="InterviewCtrl">
-    <div ng-show="!iniciado" flex layout-padding class="boxchat">
-        <md-input-container>
-            <label>Nome</label>
-            <input ng-model="nome">
-        </md-input-container>
-        <md-input-container>
-            <label>Email</label>
-            <input ng-model="email">
-        </md-input-container>
-        <br>
-        <md-button class="md-raised" ng-click="iniciar()">Iniciar</md-button>
-    </div>
 
-    <div ng-show="iniciado">
-        <md-content flex layout-padding class="boxchatmsg" id="messageslist">
-            <md-list>
-                <md-list-item class="md-3-line" ng-repeat="item in messages">
+    <div ng-controller="InterviewCtrl" layout="column" ng-cloak class="md-inline-form">
+        <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding>
 
-                    <md-icon md-font-set="material-icons" ng-if="item.who!='bot'"> face </md-icon>
-                    <md-icon md-font-set="material-icons" ng-if="item.who=='bot'"> android </md-icon>
-                    <div class="md-list-item-text message">
-                        <p>{{item.message}}</p>
-                    </div>
-                    <md-divider md-inset ng-if="!$last"></md-divider>
-                </md-list-item>
-            </md-list>
-
-            <md-input-container ng-if="triggers==null || triggers.length==1">
-                <label>Mensagem</label>
-                <input ng-model="mensagem">
+            <div ng-show="!iniciado" flex layout-padding class="boxchat">
+                <md-input-container>
+                    <label>Nome</label>
+                    <input ng-model="nome">
+                </md-input-container>
+                <md-input-container>
+                    <label>Email</label>
+                    <input ng-model="email">
+                </md-input-container>
                 <br>
-                <md-button class="md-raised" ng-click="enviar(null)">Enviar</md-button>
-            </md-input-container>
+                <md-button class="md-raised" ng-click="iniciar()">Iniciar</md-button>
+            </div>
 
-            <md-input-container ng-if="triggers.length>1 && triggers.length<5" layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-                <div ng-repeat="itemTrigger in triggers">
-                    <md-button ng-click="enviar(itemTrigger[0])" class="md-raised md-primary">{{itemTrigger[0]|capitalize}}</md-button>
-                </div>
-            </md-input-container>
+            <div ng-show="iniciado">
+                <md-content flex layout-padding class="boxchatmsg" id="messageslist">
+                    <md-list>
+                        <md-list-item class="md-3-line" ng-repeat="item in messages">
 
-            <md-input-container ng-if="triggers.length>4">
-                <md-select ng-model="mensagem">
-                    <md-option ng-repeat="itemTrigger in triggers" value="{{itemTrigger[0]}}">
-                        {{itemTrigger[0]|capitalize}}
-                    </md-option>
-                </md-select>
-                <br>
-                <md-button class="md-raised" ng-click="enviar(null)">Enviar</md-button>
-            </md-input-container>
+                            <md-icon md-font-set="material-icons" ng-if="item.who!='bot'"> face </md-icon>
+                            <md-icon md-font-set="material-icons" ng-if="item.who=='bot'"> android </md-icon>
+                            <div class="md-list-item-text message">
+                                <p>{{item.message}}</p>
+                            </div>
+                            <md-divider md-inset ng-if="!$last"></md-divider>
+                        </md-list-item>
+                    </md-list>
 
+                    <div ng-show="!end">
+                        <md-input-container ng-if="triggers==null || triggers.length==1">
+                            <label>Mensagem</label>
+                            <input ng-model="mensagem" aria-label="Choose option">
+                            <br>
+                            <md-button class="md-raised" ng-click="enviar(null)">Enviar</md-button>
+                        </md-input-container>
 
+                        <md-input-container ng-if="triggers.length>1 && triggers.length<5" layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                            <div ng-repeat="itemTrigger in triggers">
+                                <md-button ng-click="enviar(itemTrigger[0])" aria-label="Choose option" class="md-raised md-primary">{{itemTrigger[0]|capitalize}}</md-button>
+                            </div>
+                        </md-input-container>
 
-        </md-content>
-
-        <md-content flex layout-padding class="optionschat">
-            <md-list ng-if="opcoes && opcoes.length>0">
-                <md-list-item class="md-3-line" ng-repeat="item in opcoes">
-                    <div class="md-list-item-text message">
-                        <p>{{item.message}}</p>
+                        <md-input-container ng-if="triggers.length>4">
+                            <md-select ng-model="select.value" aria-label="Choose a option">
+                                <md-option ng-repeat="itemTrigger in triggers" ng-value="itemTrigger[0]">
+                                    {{itemTrigger[0]|capitalize}}
+                                </md-option>
+                            </md-select>
+                            <br>
+                            <md-button class="md-raised" ng-click="enviar(null)">Enviar</md-button>
+                        </md-input-container>
                     </div>
-                    <md-divider md-inset ng-if="!$last"></md-divider>
-                </md-list-item>
-            </md-list>
-        </md-content>
+                </md-content>
 
+                <md-content flex layout-padding class="optionschat">
+                    <md-list ng-if="opcoes && opcoes.length>0">
+                        <md-list-item class="md-3-line" ng-repeat="item in opcoes">
+                            <div class="md-list-item-text message">
+                                <p>{{item.message}}</p>
+                            </div>
+                            <md-divider md-inset ng-if="!$last"></md-divider>
+                        </md-list-item>
+                    </md-list>
+                </md-content>
+                <md-divider></md-divider>
+            </div>
+        </md-content>
     </div>
-</section>
     <% include ../foot %>

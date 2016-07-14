@@ -1,5 +1,3 @@
-
-
 app.controller('InterviewCtrl', function($scope, $filter, $mdDialog, $mdMedia, $location) {
 
     $scope.opcoes = {};
@@ -9,6 +7,9 @@ app.controller('InterviewCtrl', function($scope, $filter, $mdDialog, $mdMedia, $
     $scope.iniciado = false;
     $scope.nome = "";
     $scope.email = "";
+    $scope.mensagem = "";
+    $scope.select = {};
+    $scope.end;
 
     $scope.iniciar = function() {
         $scope.iniciado = true;
@@ -17,6 +18,7 @@ app.controller('InterviewCtrl', function($scope, $filter, $mdDialog, $mdMedia, $
             message: "iniciar!  ",
             who: $scope.email
         });
+
 
         $scope.socket.on('message', function(data) {
             //{message: reply, topics: topics, uservars: uservars})
@@ -43,7 +45,8 @@ app.controller('InterviewCtrl', function($scope, $filter, $mdDialog, $mdMedia, $
                     }
                 });
 
-                if ($scope.opcoes.end == "true") {
+                if ($scope.opcoes.end) {
+                    $scope.end=$scope.opcoes.end;
                     $scope.showAdvanced();
                 }
 
@@ -60,17 +63,52 @@ app.controller('InterviewCtrl', function($scope, $filter, $mdDialog, $mdMedia, $
     $scope.enviar = function(text) {
         var textCapitalize;
         if (!text) {
-            text = $scope.mensagem;
+            if ($scope.mensagem) text = $scope.mensagem;
+            if ($scope.select.value) text = $scope.select.value;
             textCapitalize = text;
         } else textCapitalize = $filter('capitalize')(text);
         $scope.messages.push({
             "who": "me",
             "message": textCapitalize
         });
+        console.log(text, $scope.select);
         $scope.socket.emit('send', {
             message: text,
             who: $scope.email
         });
     };
 
+    $scope.showAdvanced = function(ev) {
+        var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
+        $mdDialog.show({
+                controller: DialogController,
+                templateUrl: socketurl + "/rivescriptviz/interviewresultshtml/" + $scope.end + '.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true,
+                fullscreen: useFullScreen
+            })
+            .then(function(answer) {
+                $scope.status = 'You said the information was "' + answer + '".';
+            }, function() {
+                $scope.status = 'You cancelled the dialog.';
+            });
+        $scope.$watch(function() {
+            return $mdMedia('xs') || $mdMedia('sm');
+        }, function(wantsFullScreen) {
+            $scope.customFullscreen = (wantsFullScreen === true);
+        });
+    };
 });
+
+function DialogController($scope, $mdDialog) {
+    $scope.hide = function() {
+        $mdDialog.hide();
+    };
+    $scope.cancel = function() {
+        $mdDialog.cancel();
+    };
+    $scope.answer = function(answer) {
+        $mdDialog.hide(answer);
+    };
+}

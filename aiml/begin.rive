@@ -32,12 +32,12 @@
 
 > topic likemost
   + (soccer|movies)
-  - Yeah.. me too!!
-  ^ <set gravidadeinfracao=<star>>{topic=numberyoulike}
+  - Yeah.. me too!! Now choose a number from 1 to 5
+  ^ <set likemost=<star>>{topic=numberyoulike}
 
   + (basketball|voleyball)
-  * <get fellingwell> == no => cool! Now choose a number from 1 to 5 {topic=numberyoulike}
-  * <get fellingwell> == yes => Great.. we are very like the same =).. now choose a number from 1 to 5{topic=numberyoulike}
+  * <get fellingwell> == no => cool! Now choose a number from 1 to 5 <set likemost=<star>>{topic=numberyoulike}
+  * <get fellingwell> == yes => Great.. we are very like the same =).. now choose a number from 1 to 5<set likemost=<star>>{topic=numberyoulike}
 < topic
 
 
