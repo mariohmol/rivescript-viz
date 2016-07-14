@@ -15,11 +15,18 @@ g {
     text-align: center;
     height: 100%;
 }
+.boxchatmsg {
+    max-height: 500px;
+}
+.iconchatmsg{
+    padding-right: 2%;
+    margin: auto !important;
+}
 .secinterview {
     max-height: 200px;
 }
-md-list-item{
-      max-height: 100px;
+md-list-item {
+    max-height: 100px;
 }
 
 /* CUSTOM FOR SPREADSHEET GRID */
@@ -54,4 +61,7 @@ textarea {
     height: auto !important;
     white-space: normal;
     overflow: visible;
+}
+.ui-grid-column-menu-button {
+    display: none;
 }

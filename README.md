@@ -18,16 +18,28 @@ In this page you have a spreadsheet that loads all `.rive` files inside `aiml` f
 
 A interview chat mode is when the user has to answer questions made by the bot. In this case we give to user some options to answer, as buttons, select input or text.
 
+### Answer with 2 to 4 questions
 
 ![Interview results](/public/interview2op.png)
 
 ![Interview results](/public/interview4op.png)
 
+### Answer with many options
+
 ![Interview results](/public/interviewmany.png)
+
+![Interview results](/public/interviewmanyoptions.png)
+
+### Answer text
 
 ![Interview results](/public/interviewmsg.png)
 
+### Interview Results
+
 In the end of the interview is possible to show a custom page using variables that the user answered during the interview.
+
+![Interview results](/public/interviewshowresults.png)
+
 
 ## Interview Results
 

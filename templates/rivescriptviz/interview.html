@@ -1,7 +1,7 @@
 <% include ../head %>
 
     <div ng-controller="InterviewCtrl" layout="column" ng-cloak class="md-inline-form">
-        <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding>
+        <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding >
 
             <div ng-show="!iniciado" flex layout-padding class="boxchat">
                 <md-input-container>
@@ -21,8 +21,8 @@
                     <md-list>
                         <md-list-item class="md-3-line" ng-repeat="item in messages">
 
-                            <md-icon md-font-set="material-icons" ng-if="item.who!='bot'"> face </md-icon>
-                            <md-icon md-font-set="material-icons" ng-if="item.who=='bot'"> android </md-icon>
+                            <md-icon class="iconchatmsg" md-font-set="material-icons" ng-if="item.who!='bot'"> face </md-icon>
+                            <md-icon class="iconchatmsg" md-font-set="material-icons" ng-if="item.who=='bot'"> android </md-icon>
                             <div class="md-list-item-text message">
                                 <p>{{item.message}}</p>
                             </div>
