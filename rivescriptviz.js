@@ -59,7 +59,7 @@ module.exports = function(app) {
             };
             obj.trigger = item.trigger;
             var value = item.value;
-            if(item.goto) item.value+='{topic='+item.goto+'}';
+            if (item.goto) item.value += '{topic=' + item.goto + '}';
             obj.reply.push(value);
             newtopics[item.topic].push(obj);
         }
@@ -89,22 +89,39 @@ module.exports = function(app) {
 
                 newobj.delete = true;
                 newobj.trigger = topic[item].trigger;
-                var regexTopic = /{topic=(.*?)}/ig;
-                while (match = regexTopic.exec(newobj.value)) {
-                    newobj.goto = match[1];
-                    newobj.value = newobj.value.replace(match[0], "");
-                }
-                newobj.condition="";
-                for(var c in topic[item].condition){
-                  if(newobj.condition) newobj.condition="/n";
-                  newobj.condition+=topic[item].condition[c];
+
+
+                var tempNewObj,valTopics;
+
+                newobj.condition = "";
+                for (var c in topic[item].condition) {
+                    tempNewObj = JSON.parse(JSON.stringify(newobj));
+                    tempNewObj.condition = topic[item].condition[c];
+
+                    valTopics = extractTopic(tempNewObj.condition);
+                    if(valTopics){
+                      tempNewObj.goto = valTopics.topic;
+                      tempNewObj.condition= valTopics.cleantext;
+                    }
+
+                    returndata.push(tempNewObj);
                 }
 
-                for(var r in topic[item].reply){
-                  var tempNewObj = JSON.parse(JSON.stringify(newobj));
-                  tempNewObj.value = topic[item].reply[r];
-                  returndata.push(tempNewObj);
+                newobj.value = "";
+                for (var r in topic[item].reply) {
+                    tempNewObj = JSON.parse(JSON.stringify(newobj));
+                    tempNewObj.value = topic[item].reply[r];
+
+                    valTopics = extractTopic(tempNewObj.value);
+                    if(valTopics){
+                      tempNewObj.goto = valTopics.topic;
+                      tempNewObj.value= valTopics.cleantext;
+                    }
+
+                    returndata.push(tempNewObj);
                 }
+
+                if (topic[item].reply.length === 0 && topic[item].condition === 0) returndata.push(newobj);
             }
         }
 
@@ -143,9 +160,13 @@ module.exports = function(app) {
     app.post('/rivescriptviz/interviewresults/:name', function(req, res) {
         fs.writeFile('./templates/results/' + req.params.name, req.body.data, function(err) {
             if (err) {
-              res.json({ err: err});
+                res.json({
+                    err: err
+                });
             }
-            res.json({result: "OK"});
+            res.json({
+                result: "OK"
+            });
         });
     });
 
@@ -191,5 +212,13 @@ module.exports = function(app) {
             sendMessage(data.who, data.message);
         });
     });
+
+    var extractTopic = function(text){
+      var regexTopic = /{topic=(.*?)}/ig;
+      //while (match = regexTopic.exec(newobj.value)) {
+      match = regexTopic.exec(text);
+      if(!match) return;
+      return {"topic": match[1], "cleantext": text.replace(match[0], "")};
+    };
 
 };

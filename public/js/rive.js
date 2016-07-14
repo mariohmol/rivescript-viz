@@ -10,24 +10,24 @@ app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $locat
     $scope.gridOptions.columnDefs = [{
         name: 'topic',
         displayName: 'Topic',
-        width: '13%',
+        width: '12%',
         enableCellEdit: true,
         editFileChooserCallback: $scope.storeFile
     }, {
         name: 'trigger',
         displayName: 'Trigger',
-        width: '13%',
+        width: '12%',
         enableCellEdit: true
     }, {
         name: 'condition',
         displayName: 'Condition',
-        width: '12%',
+        width: '25%',
         enableCellEdit: true,
         editableCellTemplate: '<textarea ng-class="\'colt\' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" ngEnter></textarea>'
     }, {
         name: 'value',
         displayName: 'Reply',
-        width: '45%',
+        width: '35%',
         enableCellEdit: true,
         editableCellTemplate: '<textarea ng-class="\'colt\' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" ngEnter></textarea>'
     }, {
@@ -44,7 +44,7 @@ app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $locat
         }
     }, {
         name: 'Remove',
-        width: '7%',
+        width: '6%',
         cellTemplate: '<md-button class="md-raised md-warn" ng-click="grid.appScope.deleteRow(row)">remove</md-button>'
     }];
 
@@ -52,7 +52,7 @@ app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $locat
     $http.get("/rivescriptviz/topics/spreadsheet").then(function(response) {
         $scope.gridOptions.data = response.data.data;
         $scope.topics = response.data.topics;
-        console.log(response.data.rivedata);
+        console.log(response.data);
     });
 
     $scope.write = function() {
