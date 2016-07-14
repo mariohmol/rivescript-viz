@@ -45,7 +45,7 @@ app.controller('RiveCtrl', function($scope, $filter, $mdDialog, $mdMedia, $locat
     }, {
         name: 'Remove',
         width: '6%',
-        cellTemplate: '<md-button class="md-raised md-warn" ng-click="grid.appScope.deleteRow(row)">remove</md-button>'
+        cellTemplate: '<md-button class="md-raised md-warn" ng-click="grid.appScope.deleteRow(row)">-</md-button><md-button class="md-raised md-primary" ng-click="alert(\'Conf not implemented yet\')">?</md-button>'
     }];
 
 

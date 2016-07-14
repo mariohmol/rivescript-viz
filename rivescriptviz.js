@@ -50,6 +50,21 @@ module.exports = function(app) {
         for (var topic in req.body) {
             var item = req.body[topic];
             if (!newtopics[item.topic]) newtopics[item.topic] = [];
+
+
+            if (item.goto && item.value) item.value += '{topic=' + item.goto + '}';
+            if (item.goto && item.condition) item.condition += '{topic=' + item.goto + '}';
+
+            var found=false;
+            for(var t in newtopics[item.topic]){
+              if(newtopics[item.topic][t].trigger==item.trigger){
+                found=true;
+                if(item.value) newtopics[item.topic][t].reply.push(item.value);
+                if(item.condition) newtopics[item.topic][t].condition.push(item.condition);
+              }
+            }
+            if(found) continue;
+
             var obj = {
                 trigger: "",
                 reply: [],
@@ -58,14 +73,13 @@ module.exports = function(app) {
                 previous: null
             };
             obj.trigger = item.trigger;
-            var value = item.value;
-            if (item.goto) item.value += '{topic=' + item.goto + '}';
-            obj.reply.push(value);
+            if(item.value) obj.reply.push(item.value);
+            if(item.condition) obj.condition.push(item.condition);
             newtopics[item.topic].push(obj);
         }
 
         app.bot._topics = newtopics;
-        var retorno = app.bot.write("test.rive");
+        var retorno = app.bot.write("aiml/all.rive");
 
         res.json({
             return: "ok",
@@ -74,7 +88,6 @@ module.exports = function(app) {
     });
 
     app.get('/rivescriptviz/topics/spreadsheet', function(req, res) {
-
         var rivedata = app.bot.deparse();
         var topics = rivedata.topics;
         var returndata = [];
