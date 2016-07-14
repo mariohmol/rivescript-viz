@@ -54,6 +54,10 @@
                             <md-button class="md-raised" ng-click="enviar(null)">Enviar</md-button>
                         </md-input-container>
                     </div>
+
+                    <md-input-container ng-if="end" layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                        <md-button ng-click="showAdvanced()" aria-label="Choose option" class="md-raised md-primary">See results</md-button>
+                    </md-input-container>
                 </md-content>
 
                 <md-content flex layout-padding class="optionschat">

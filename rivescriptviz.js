@@ -55,15 +55,15 @@ module.exports = function(app) {
             if (item.goto && item.value) item.value += '{topic=' + item.goto + '}';
             if (item.goto && item.condition) item.condition += '{topic=' + item.goto + '}';
 
-            var found=false;
-            for(var t in newtopics[item.topic]){
-              if(newtopics[item.topic][t].trigger==item.trigger){
-                found=true;
-                if(item.value) newtopics[item.topic][t].reply.push(item.value);
-                if(item.condition) newtopics[item.topic][t].condition.push(item.condition);
-              }
+            var found = false;
+            for (var t in newtopics[item.topic]) {
+                if (newtopics[item.topic][t].trigger == item.trigger) {
+                    found = true;
+                    if (item.value) newtopics[item.topic][t].reply.push(item.value);
+                    if (item.condition) newtopics[item.topic][t].condition.push(item.condition);
+                }
             }
-            if(found) continue;
+            if (found) continue;
 
             var obj = {
                 trigger: "",
@@ -73,14 +73,14 @@ module.exports = function(app) {
                 previous: null
             };
             obj.trigger = item.trigger;
-            if(item.value) obj.reply.push(item.value);
-            if(item.condition) obj.condition.push(item.condition);
+            if (item.value) obj.reply.push(item.value);
+            if (item.condition) obj.condition.push(item.condition);
             newtopics[item.topic].push(obj);
         }
 
         app.bot._topics = newtopics;
-        var filename="all.rive";
-        if(process.env.FINAL_RIVE_FILE) filename=process.env.FINAL_RIVE_FILE;
+        var filename = "all.rive";
+        if (process.env.FINAL_RIVE_FILE) filename = process.env.FINAL_RIVE_FILE;
         var retorno = app.bot.write(filename);
 
         res.json({
@@ -106,7 +106,7 @@ module.exports = function(app) {
                 newobj.trigger = topic[item].trigger;
 
 
-                var tempNewObj,valTopics;
+                var tempNewObj, valTopics;
 
                 newobj.condition = "";
                 for (var c in topic[item].condition) {
@@ -114,9 +114,9 @@ module.exports = function(app) {
                     tempNewObj.condition = topic[item].condition[c];
 
                     valTopics = extractTopic(tempNewObj.condition);
-                    if(valTopics){
-                      tempNewObj.goto = valTopics.topic;
-                      tempNewObj.condition= valTopics.cleantext;
+                    if (valTopics) {
+                        tempNewObj.goto = valTopics.topic;
+                        tempNewObj.condition = valTopics.cleantext;
                     }
 
                     returndata.push(tempNewObj);
@@ -128,9 +128,9 @@ module.exports = function(app) {
                     tempNewObj.value = topic[item].reply[r];
 
                     valTopics = extractTopic(tempNewObj.value);
-                    if(valTopics){
-                      tempNewObj.goto = valTopics.topic;
-                      tempNewObj.value= valTopics.cleantext;
+                    if (valTopics) {
+                        tempNewObj.goto = valTopics.topic;
+                        tempNewObj.value = valTopics.cleantext;
                     }
 
                     returndata.push(tempNewObj);
@@ -186,7 +186,16 @@ module.exports = function(app) {
     });
 
     app.get('/rivescriptviz/interviewresultshtml/:name', function(req, res) {
-        res.render("results/"+req.params.name);
+        fs.readFile("templates/rivescriptviz/headresult.ejs", 'utf8', function(err, head) {
+            if (err) return callback(err);
+            fs.readFile("templates/rivescriptviz/footresult.ejs", 'utf8', function(err, foot) {
+              fs.readFile("templates/rivescriptviz/"+req.params.name, 'utf8', function(err, doc) {
+                res.send(head+doc+foot);
+              });
+
+            });
+        });
+        //res.render("<% include headresult %><% include "+req.params.name+" %><% include footresult %>"); //"results/"+req.params.name
     });
 
     var port = 3000;
@@ -232,12 +241,15 @@ module.exports = function(app) {
         });
     });
 
-    var extractTopic = function(text){
-      var regexTopic = /{topic=(.*?)}/ig;
-      //while (match = regexTopic.exec(newobj.value)) {
-      match = regexTopic.exec(text);
-      if(!match) return;
-      return {"topic": match[1], "cleantext": text.replace(match[0], "")};
+    var extractTopic = function(text) {
+        var regexTopic = /{topic=(.*?)}/ig;
+        //while (match = regexTopic.exec(newobj.value)) {
+        match = regexTopic.exec(text);
+        if (!match) return;
+        return {
+            "topic": match[1],
+            "cleantext": text.replace(match[0], "")
+        };
     };
 
 };
