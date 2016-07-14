@@ -3,7 +3,7 @@ module.exports = function(app) {
     var fs = require('fs');
 
     app.get('/rivescriptviz', function(req, res) {
-        res.render('/rivescriptviz/page.html');
+        res.render('rivescriptviz/page.html');
     });
 
     app.get('/rivescriptviz/chat', function(req, res) {

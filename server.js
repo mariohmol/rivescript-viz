@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.text({ type: 'text/html' }));
 
 app.get('/', function (req, res) {
-   res.render('page.html');
+   res.render('rivescriptviz/page.html');
 });
 
 require('./rivescriptviz')(app);

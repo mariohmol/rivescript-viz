@@ -65,3 +65,7 @@ textarea {
 .ui-grid-column-menu-button {
     display: none;
 }
+
+.ui-grid-canvas , .ui-grid-viewport{
+  height: auto !important;
+}
