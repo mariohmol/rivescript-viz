@@ -2,6 +2,8 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 
+process.env.FINAL_RIVE_FILE="all2.rive";
+
 app.set('view engine', 'html');
 app.set('views', __dirname + '/templates');
 app.engine('html', require('ejs').renderFile);

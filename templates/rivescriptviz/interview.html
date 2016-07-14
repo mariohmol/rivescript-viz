@@ -1,6 +1,19 @@
 <% include ../head %>
+<section class="secinterview" ng-controller="InterviewCtrl">
+    <div ng-show="!iniciado" flex layout-padding class="boxchat">
+        <md-input-container>
+            <label>Nome</label>
+            <input ng-model="nome">
+        </md-input-container>
+        <md-input-container>
+            <label>Email</label>
+            <input ng-model="email">
+        </md-input-container>
+        <br>
+        <md-button class="md-raised" ng-click="iniciar()">Iniciar</md-button>
+    </div>
 
-    <section class="headsec" ng-controller="InterviewChatCtrl">
+    <div ng-show="iniciado">
         <md-content flex layout-padding class="boxchatmsg" id="messageslist">
             <md-list>
                 <md-list-item class="md-3-line" ng-repeat="item in messages">
@@ -51,6 +64,7 @@
                 </md-list-item>
             </md-list>
         </md-content>
-    </section>
 
+    </div>
+</section>
     <% include ../foot %>

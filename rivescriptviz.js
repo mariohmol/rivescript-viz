@@ -79,7 +79,9 @@ module.exports = function(app) {
         }
 
         app.bot._topics = newtopics;
-        var retorno = app.bot.write("aiml/all.rive");
+        var filename="all.rive";
+        if(process.env.FINAL_RIVE_FILE) filename=process.env.FINAL_RIVE_FILE;
+        var retorno = app.bot.write(filename);
 
         res.json({
             return: "ok",

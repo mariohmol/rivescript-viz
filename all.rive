@@ -1,0 +1,70 @@
+! version = 2.0
+! local concat = none
+
+! var name = MultasBot
+
+> topic inicio
+
+	+ *
+	- Hi ther i'm a bot to test the Admin for Rivescript. I'll make some questions to test. Are you felling well?\n<set retry=0>{topic=carteiramotorista}
+	- Hi ther i'm a bot to test the Admin for Rivescript. I'll make some questions to test. Are you felling well?\n<set retry=0>{topic=carteiramotorista}
+
+< topic
+
+> topic fellingwell
+
+	+ yes
+	- Thats good!! Now tell me what you like most!\n<set fellingwell=yes>{topic=likemost}
+	- Thats good!! Now tell me what you like most!\n<set fellingwell=yes>{topic=likemost}
+
+	+ no
+	- Thats bad! Sorry about that, anyway, tell me what you like most!\n<set fellingwell=no>{topic=likemost}
+	- Thats bad! Sorry about that, anyway, tell me what you like most!\n<set fellingwell=no>{topic=likemost}
+
+< topic
+
+> topic likemost
+
+	+ (soccer|movies)
+	- Yeah.. me too!!\n<set gravidadeinfracao=<star>>{topic=numberyoulike}
+	- Yeah.. me too!!\n<set gravidadeinfracao=<star>>{topic=numberyoulike}
+
+	+ (basketball|voleyball)
+	* <get fellingwell> == no => cool! Now choose a number from 1 to 5 {topic=numberyoulike}
+	* <get fellingwell> == yes => Great.. we are very like the same =).. now choose a number from 1 to 5{topic=numberyoulike}
+	* <get fellingwell> == no => cool! Now choose a number from 1 to 5 {topic=numberyoulike}
+	* <get fellingwell> == yes => Great.. we are very like the same =).. now choose a number from 1 to 5{topic=numberyoulike}
+
+< topic
+
+> topic numberyoulike
+
+	+ 1
+	- Good Number!! Tell me your name!<set numberyoulike=<star>>{topic=yourname}
+	- Good Number!! Tell me your name!<set numberyoulike=<star>>{topic=yourname}
+
+	+ 2
+	- Good Number!! Tell me your name!<set numberyoulike=<star>>{topic=yourname}
+	- Good Number!! Tell me your name!<set numberyoulike=<star>>{topic=yourname}
+
+	+ 3
+	- Good Number!! Tell me your name!<set numberyoulike=<star>>{topic=yourname}
+	- Good Number!! Tell me your name!<set numberyoulike=<star>>{topic=yourname}
+
+	+ 4
+	- Good Number!! Tell me your name!<set numberyoulike=<star>>{topic=yourname}
+	- Good Number!! Tell me your name!<set numberyoulike=<star>>{topic=yourname}
+
+	+ 5
+	- Good Number!! Tell me your name!<set numberyoulike=<star>>{topic=yourname}
+	- Good Number!! Tell me your name!<set numberyoulike=<star>>{topic=yourname}
+
+< topic
+
+> topic yourname
+
+	+ *
+	- Thank you!! See our interview results!<set end=interview>
+	- Thank you!! See our interview results!<set end=interview>
+
+< topic

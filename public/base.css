@@ -15,6 +15,12 @@ g {
     text-align: center;
     height: 100%;
 }
+.secinterview {
+    height: 200px;
+}
+
+/* CUSTOM FOR SPREADSHEET GRID */
+
 .ui-grid-header-cell-wrapper {
     height: auto !important;
 }
@@ -29,7 +35,20 @@ textarea {
     min-height: 200px !important;
     width: 100% !important;
 }
-
-.ui-grid-cell { display : table-cell; height: auto !important; overflow:visible; position: static; padding-top: 10px; }
-.ui-grid-row { display : table-row; height: auto !important; position: static; }
-.ui-grid-cell-contents{ height: auto !important; white-space: normal; overflow:visible; }
+.ui-grid-cell {
+    display: table-cell;
+    height: auto !important;
+    overflow: visible;
+    position: static;
+    padding-top: 10px;
+}
+.ui-grid-row {
+    display: table-row;
+    height: auto !important;
+    position: static;
+}
+.ui-grid-cell-contents {
+    height: auto !important;
+    white-space: normal;
+    overflow: visible;
+}
