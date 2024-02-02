@@ -26,7 +26,7 @@
     "angular-route": "^1.5.7",
     "angular-sanitize": "^1.5.7",
     "angular-touch": "^1.5.7",
-    "angular-ui-grid": "^3.2.5",
+    "angular-ui-grid": "^4.9.0",
     "d3": "^4.1.1",
     "d3plus": "^1.9.5",
     "ejs": "^2.4.2",
